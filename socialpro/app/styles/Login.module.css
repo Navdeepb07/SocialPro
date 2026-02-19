@@ -1,0 +1,306 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--background-primary) 0%, var(--surface-secondary) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.authWrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+.logoSection {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--linkedin-blue);
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.logoSvg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.logoTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--linkedin-blue);
+  margin: 0;
+}
+
+.cardContainer {
+  background: var(--surface-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 32px;
+  border: 1px solid var(--border-primary);
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.cardleft_heading {
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.cardSubtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0 0 24px 0;
+}
+
+.messageContainer {
+  min-height: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.messageText {
+  font-size: 14px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+.messageText.error {
+  color: var(--linkedin-red);
+  background-color: rgba(204, 16, 22, 0.1);
+  border: 1px solid rgba(204, 16, 22, 0.2);
+}
+
+.messageText.success {
+  color: var(--linkedin-green);
+  background-color: rgba(5, 118, 66, 0.1);
+  border: 1px solid rgba(5, 118, 66, 0.2);
+}
+
+.inputContainers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputRow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-secondary);
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: var(--surface-primary);
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--linkedin-blue);
+  box-shadow: 0 0 0 1px var(--linkedin-blue);
+}
+
+.inputField::placeholder {
+  color: var(--text-muted);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--linkedin-blue);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.submitButton:hover {
+  background-color: var(--linkedin-blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.submitButton:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dividerContainer {
+  margin: 24px 0;
+  text-align: center;
+  position: relative;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--border-primary);
+  margin: 0;
+}
+
+.dividerText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--surface-primary);
+  padding: 0 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.switchModeContainer {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.switchModeText {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 8px 0;
+}
+
+.switchModeButton {
+  background: none;
+  border: 1px solid var(--linkedin-blue);
+  color: var(--linkedin-blue);
+  padding: 8px 24px;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.switchModeButton:hover {
+  background-color: var(--linkedin-blue);
+  color: white;
+}
+
+.cardContainer_right {
+  flex: 0.4;
+  background: linear-gradient(135deg, var(--linkedin-blue), var(--linkedin-blue-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+}
+
+.rightContent {
+  max-width: 300px;
+}
+
+.rightTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.rightSubtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Alternative card layout for larger screens */
+@media (min-width: 768px) {
+  .container {
+    padding: 40px;
+  }
+  
+  .authWrapper {
+    max-width: 900px;
+    display: flex;
+    background: var(--surface-primary);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .cardContainer {
+    flex: 0.6;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+  }
+  
+  .logoSection {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .cardContainer {
+    padding: 24px;
+  }
+  
+  .cardleft_heading {
+    font-size: 28px;
+  }
+  
+  .inputField {
+    font-size: 16px;
+  }
+  
+  .cardContainer_right {
+    display: none;
+  }
+}
+
+/* Loading state */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.loadingSpinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

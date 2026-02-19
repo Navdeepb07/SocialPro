@@ -1,0 +1,704 @@
+.dashboardFeed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Create Post Section */
+.createPostContainer {
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.createPostContainer:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.createPostHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.profilePicture {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-primary);
+}
+
+.createPostInput {
+  flex: 1;
+  border: 1px solid var(--border-secondary);
+  border-radius: 24px;
+  padding: 12px 16px;
+  font-size: 14px;
+  background-color: var(--surface-secondary);
+  transition: all 0.2s;
+  resize: none;
+  min-height: 48px;
+  font-family: inherit;
+}
+
+.createPostInput:focus {
+  outline: none;
+  border-color: var(--linkedin-blue);
+  background-color: var(--surface-primary);
+  box-shadow: 0 0 0 1px var(--linkedin-blue);
+}
+
+.createPostInput::placeholder {
+  color: var(--text-secondary);
+}
+
+.createPostActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.postOptions {
+  display: flex;
+  gap: 12px;
+}
+
+.postOption {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.postOption:hover {
+  background-color: var(--surface-hover);
+}
+
+.postOption svg {
+  width: 20px;
+  height: 20px;
+}
+
+.uploadButton {
+  background: linear-gradient(135deg, var(--linkedin-blue), var(--linkedin-blue-light));
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(10, 102, 194, 0.3);
+  margin-top: 12px;
+}
+
+.uploadButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(10, 102, 194, 0.4);
+  background: linear-gradient(135deg, var(--linkedin-blue-hover), var(--linkedin-blue));
+}
+
+/* Post Cards Styling */
+.singleCardContainer {
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.singleCardContainer:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.singleCard__profileContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.profilePicture {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-primary);
+  flex-shrink: 0;
+}
+
+.singleCard__image {
+  margin: 16px 0;
+}
+
+.postImage {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
+}
+
+.optionsContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.singleOption__optionContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.singleOption__optionContainer:hover {
+  background-color: var(--surface-hover);
+  color: var(--linkedin-blue);
+  transform: scale(1.05);
+}
+
+.singleOption__optionContainer svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* FAB Button Styling */
+.Fab {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--linkedin-blue), var(--linkedin-blue-light));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(10, 102, 194, 0.3);
+  color: white;
+}
+
+.Fab:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 4px 16px rgba(10, 102, 194, 0.4);
+}
+
+.Fab svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Comments Modal Styling */
+.commentsContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.allCommentsContainer {
+  background-color: var(--surface-primary);
+  border-radius: var(--radius-lg);
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.postCommentContainer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.postCommentContainer input {
+  flex: 1;
+  border: 1px solid var(--border-secondary);
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.postCommentContainer input:focus {
+  border-color: var(--linkedin-blue);
+  box-shadow: 0 0 0 2px rgba(10, 102, 194, 0.2);
+}
+
+.postCommentContainer__commentBtn {
+  background: linear-gradient(135deg, var(--linkedin-blue), var(--linkedin-blue-light));
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.postCommentContainer__commentBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .createPostContainer {
+    padding: 16px;
+    margin-bottom: 12px;
+    flex-direction: column;
+  }
+  
+  .singleCardContainer {
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .optionsContainer {
+    gap: 16px;
+  }
+  
+  .allCommentsContainer {
+    width: 95%;
+    padding: 20px;
+    max-height: 85vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .createPostContainer,
+  .singleCardContainer {
+    padding: 12px;
+  }
+  
+  .profilePicture {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .optionsContainer {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .singleOption__optionContainer {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .allCommentsContainer {
+    width: 98%;
+    padding: 16px;
+    border-radius: 12px;
+  }
+}
+
+.uploadButton:hover {
+  background-color: var(--linkedin-blue-hover);
+}
+
+.uploadButton:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Post Cards */
+.postCard {
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.postCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 12px 16px;
+}
+
+.postAuthorAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-primary);
+  cursor: pointer;
+}
+
+.postAuthorInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.postAuthorName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.postAuthorName:hover {
+  color: var(--linkedin-blue);
+  text-decoration: underline;
+}
+
+.postMeta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.postMoreOptions {
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.postMoreOptions:hover {
+  background-color: var(--surface-hover);
+}
+
+.postMoreOptions svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+}
+
+.postContent {
+  padding: 0 16px 12px 16px;
+}
+
+.postText {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text-primary);
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.postImage {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  display: block;
+  margin: 12px 0 0 0;
+}
+
+.postActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 8px 12px 8px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.postAction {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  flex: 1;
+  justify-content: center;
+}
+
+.postAction:hover {
+  background-color: var(--surface-hover);
+}
+
+.postAction.liked {
+  color: var(--linkedin-blue);
+}
+
+.postAction svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Comments Section */
+.commentsContainer {
+  border-top: 1px solid var(--border-primary);
+  background-color: var(--surface-secondary);
+}
+
+.commentInput {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.commentAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-primary);
+  flex-shrink: 0;
+}
+
+.commentInputField {
+  flex: 1;
+  border: 1px solid var(--border-secondary);
+  border-radius: 16px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: var(--surface-primary);
+  resize: none;
+  min-height: 32px;
+  font-family: inherit;
+}
+
+.commentInputField:focus {
+  outline: none;
+  border-color: var(--linkedin-blue);
+}
+
+.commentSubmit {
+  background-color: var(--linkedin-blue);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 8px;
+}
+
+.commentSubmit:hover {
+  background-color: var(--linkedin-blue-hover);
+}
+
+.allCommentsContainer {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.commentItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 16px;
+  transition: background-color 0.2s;
+}
+
+.commentItem:hover {
+  background-color: var(--surface-hover);
+}
+
+.commentContent {
+  flex: 1;
+  background-color: var(--surface-primary);
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+.commentAuthor {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2px 0;
+}
+
+.commentText {
+  font-size: 12px;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.commentMeta {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin: 2px 0 0 0;
+}
+
+/* Loading States */
+.loadingPost {
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  text-align: center;
+}
+
+.loadingSpinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-primary);
+  border-radius: 50%;
+  border-top-color: var(--linkedin-blue);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboardFeed {
+    max-width: 100%;
+    gap: 12px;
+  }
+  
+  .createPostContainer,
+  .postCard {
+    border-radius: var(--radius-md);
+    margin: 0 -1px;
+  }
+  
+  .postActions {
+    padding: 6px 4px 8px 4px;
+  }
+  
+  .postAction {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .postOption {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Legacy styles for backward compatibility */
+.scrollComponent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.optionsContainer {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.postCommentContainer {
+  background-color: var(--surface-secondary);
+  border-top: 1px solid var(--border-primary);
+}
+
+.postCommentContainer__commentBtn {
+  background-color: var(--linkedin-blue);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.Fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--linkedin-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.Fab:hover {
+  background-color: var(--linkedin-blue-hover);
+  transform: scale(1.05);
+}
+

@@ -1,0 +1,493 @@
+.dashboardWrapper {
+  min-height: 100vh;
+  background-color: var(--background-primary);
+  padding-top: 52px; /* Account for fixed navbar */
+}
+
+.dashboardContainer {
+  width: 100%;
+  margin: 0;
+  padding: 24px ;
+}
+
+.contentArea {
+  display: grid;
+  grid-template-columns: 225px 1fr 300px;
+  gap: 24px;
+  padding: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .contentArea {
+    grid-template-columns: 200px 1fr 250px;
+    gap: 16px;
+  }
+  
+  .dashboardContainer {
+    padding: 16px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contentArea {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .leftSidebar,
+  .rightSidebar {
+    display: none;
+  }
+  
+  .mainContent {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboardContainer {
+    padding: 12px 4px;
+  }
+}
+
+/* Left Sidebar */
+.leftSidebar {
+  position: sticky;
+  top: 76px;
+  height: fit-content;
+}
+
+.sidebarCard {
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.sidebarCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.profileSection {
+  position: relative;
+}
+
+.profileCover {
+  height: 54px;
+  background: linear-gradient(135deg, var(--linkedin-blue), var(--linkedin-blue-light));
+  position: relative;
+}
+
+.profileContent {
+  padding: 16px 12px 12px;
+  text-align: center;
+  position: relative;
+}
+
+.profileAvatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.profileInfo {
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+.profileName {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.profileUsername {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.profileStats {
+  border-top: 1px solid var(--border-primary);
+  padding-top: 12px;
+}
+
+.statItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.statItem:hover {
+  background-color: var(--surface-hover);
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.statValue {
+  font-size: 12px;
+  color: var(--linkedin-blue);
+  font-weight: 600;
+}
+
+/* Sidebar Navigation */
+.sidebarNav {
+  padding: 8px 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navItem:hover {
+  background-color: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.navItem.active {
+  background-color: var(--surface-hover);
+  color: var(--linkedin-blue);
+  font-weight: 600;
+}
+
+.navIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Main Content */
+.mainContent {
+  min-height: calc(100vh - 76px);
+}
+
+/* Right Sidebar */
+.rightSidebar {
+  position: sticky;
+  top: 76px;
+  height: fit-content;
+}
+
+.sidebarTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  padding: 12px 12px 0;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border-primary);
+  transition: background-color 0.2s;
+}
+
+.suggestionItem:last-child {
+  border-bottom: none;
+}
+
+.suggestionItem:hover {
+  background-color: var(--surface-hover);
+}
+
+.suggestionAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.suggestionInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.suggestionName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+}
+
+.suggestionTitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.connectBtn {
+  background-color: transparent;
+  border: 1px solid var(--linkedin-blue);
+  color: var(--linkedin-blue);
+  padding: 4px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.connectBtn:hover {
+  background-color: var(--linkedin-blue);
+  color: white;
+}
+
+.connectBtn.connected {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+  cursor: default;
+}
+
+.connectBtn.connected:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.connectBtn.pending {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+  cursor: default;
+}
+
+.connectBtn.pending:hover {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.connectBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loadingState {
+  padding: 20px 12px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* News Section */
+.newsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px 8px 12px;
+}
+
+.refreshButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.refreshButton:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  transform: rotate(180deg);
+}
+
+.loadingNews {
+  padding: 8px 12px;
+}
+
+.newsSkeletonItem {
+  height: 40px;
+  background: linear-gradient(90deg, var(--surface-secondary) 25%, var(--surface-hover) 50%, var(--surface-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.newsItem {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.newsItem:hover {
+  background-color: var(--surface-hover);
+}
+
+.newsTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 2px 0;
+  line-height: 1.3;
+}
+
+.newsTime {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .contentArea {
+    grid-template-columns: 1fr 300px;
+    gap: 16px;
+  }
+  
+  .leftSidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    padding: 16px 0;
+  }
+  
+  .contentArea {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 8px;
+  }
+  
+  .rightSidebar {
+    order: -1;
+    position: static;
+  }
+  
+  .suggestionItem {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .suggestionAvatar {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Profile Card Styles (for backward compatibility) */
+.profileCard {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.profileCard:last-child {
+  border-bottom: none;
+}
+
+.profileName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Legacy styles for existing components */
+.homeContainer {
+  display: flex;
+  max-width: 1128px;
+  margin: 0 auto;
+  gap: 24px;
+  padding: 24px 12px;
+}
+
+.homeContainer__leftBar {
+  flex: 0 0 225px;
+  position: sticky;
+  top: 76px;
+  height: fit-content;
+}
+
+.homeContainer__feedContainer {
+  flex: 1;
+  max-width: calc(100% - 549px);
+}
+
+.homeContainer__extraContainer {
+  flex: 0 0 300px;
+  position: sticky;
+  top: 76px;
+  height: fit-content;
+}
+
+.sideBarOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.sideBarOption:hover {
+  background-color: var(--surface-hover);
+  transform: none;
+  color: var(--text-primary);
+}
+
+.sideBarOption > svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.container {
+  background-color: var(--background-primary);
+  min-height: 100vh;
+  padding-top: 52px;
+}
