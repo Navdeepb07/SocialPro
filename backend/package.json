@@ -10,7 +10,8 @@
     "db:index": "node scripts/createIndexes.js",
     "db:seed": "node scripts/seedData.js",
     "test:rate-limits": "node scripts/testRateLimiting.js",
-    "config:check": "node scripts/configCheck.js"
+    "config:check": "node scripts/configCheck.js",
+    "prod": "node server.js"
   },
   "author": "",
   "license": "ISC",
