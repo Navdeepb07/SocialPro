@@ -1,5 +1,5 @@
-import { createClient } from 'redis';
-import dotenv from 'dotenv';
+import { createClient } from "redis";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -11,65 +11,69 @@ class RedisClient {
 
   async connect() {
     try {
-      // Check if Redis is enabled
-      if (process.env.REDIS_ENABLED !== 'true') {
-        console.log('🔌 Redis disabled in configuration');
+      if (process.env.REDIS_ENABLED !== "true") {
+        console.log("🔌 Redis disabled in configuration");
         return null;
       }
 
-      // Build Redis URL from environment variables
-      const redisHost = process.env.REDIS_HOST || 'localhost';
-      const redisPort = process.env.REDIS_PORT || 6379;
-      const redisPassword = process.env.REDIS_PASSWORD;
-      const redisDb = process.env.REDIS_DB || 0;
-
       let redisUrl;
+
       if (process.env.REDIS_URL) {
         redisUrl = process.env.REDIS_URL;
       } else {
-        redisUrl = `redis://${redisHost}:${redisPort}/${redisDb}`;
+        const redisHost = process.env.REDIS_HOST || "127.0.0.1";
+        const redisPort = process.env.REDIS_PORT || 6379;
+        const redisPassword = process.env.REDIS_PASSWORD;
+        const redisDb = process.env.REDIS_DB || 0;
+
         if (redisPassword) {
           redisUrl = `redis://:${redisPassword}@${redisHost}:${redisPort}/${redisDb}`;
+        } else {
+          redisUrl = `redis://${redisHost}:${redisPort}/${redisDb}`;
         }
       }
 
       this.client = createClient({
         url: redisUrl,
-        retry_strategy: (options) => {
-          if (options.error && options.error.code === 'ECONNREFUSED') {
-            console.log('Redis connection refused');
-            return new Error('Redis connection refused');
-          }
-          if (options.total_retry_time > 1000 * 60 * 60) {
-            return new Error('Retry time exhausted');
-          }
-          if (options.attempt > 10) {
-            return undefined;
-          }
-          return Math.min(options.attempt * 100, 3000);
-        }
+        socket: {
+          reconnectStrategy: (retries) => {
+            if (retries > 10) {
+              console.log("❌ Redis retry attempts exhausted");
+              return new Error("Retry attempts exhausted");
+            }
+            return Math.min(retries * 100, 3000);
+          },
+        },
       });
 
-      this.client.on('error', (err) => {
-        console.error('Redis Client Error:', err.message);
+      // Event listeners
+      this.client.on("error", (err) => {
+        console.error("❌ Redis Client Error:", err.message);
         this.isConnected = false;
       });
 
-      this.client.on('connect', () => {
-        console.log('🔗 Redis connecting...');
+      this.client.on("connect", () => {
+        console.log("🔗 Redis connecting...");
       });
 
-      this.client.on('ready', () => {
-        console.log('✅ Redis connected and ready');
-        console.log(`📍 Redis URL: ${redisUrl.replace(/:[^:@]*@/, ':****@')}`); // Hide password in logs
+      this.client.on("ready", () => {
+        console.log("✅ Redis connected and ready");
+        console.log(
+          `📍 Redis URL: ${redisUrl.replace(/:[^:@]*@/, ":****@")}`
+        );
         this.isConnected = true;
+      });
+
+      this.client.on("end", () => {
+        console.log("🔌 Redis connection closed");
+        this.isConnected = false;
       });
 
       await this.client.connect();
       return this.client;
     } catch (error) {
-      console.error('❌ Redis connection failed:', error.message);
-      console.log('🔄 Falling back to memory store for rate limiting');
+      console.error("❌ Redis connection failed:", error.message);
+      console.log("🔄 Falling back to memory store");
       this.isConnected = false;
       return null;
     }
@@ -85,8 +89,9 @@ class RedisClient {
 
   async disconnect() {
     if (this.client) {
-      await this.client.disconnect();
+      await this.client.quit();
       this.isConnected = false;
+      console.log("🔌 Redis disconnected");
     }
   }
 }
