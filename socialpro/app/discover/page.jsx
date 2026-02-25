@@ -36,8 +36,11 @@ function Discover() {
                   >
                   <img
                     className={styles.profilePicture}
-                    src={`${BASE_URL}/${user.userId.profilePicture}`}
+                    src={`${BASE_URL}/${user?.userId?.profilePicture || 'default.jpeg'}`}
                     alt="Profile"
+                    onError={(e) => {
+                      e.target.src = `${BASE_URL}/default.jpeg`;
+                    }}
                   />
                   <div>
                     <h3>{user.userId.name}</h3>

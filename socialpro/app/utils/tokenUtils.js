@@ -43,26 +43,45 @@ export const clearOldToken = () => {
 export const getValidToken = () => {
     const token = localStorage.getItem('token');
     
+    console.log('Getting token from localStorage:', {
+        tokenExists: !!token,
+        tokenLength: token ? token.length : 0,
+        tokenStart: token ? token.substring(0, 20) + '...' : 'null',
+        isJWT: token ? isJWT(token) : false
+    });
+    
     if (shouldRefreshToken(token)) {
+        console.log('Token needs refresh, clearing and returning null');
         clearOldToken();
         return null;
     }
     
+    console.log('Returning valid token');
     return token;
 };
 
 export const handleAuthError = (error) => {
+    console.log('Checking if error is auth related:', {
+        error,
+        status: error?.response?.status,
+        message: error?.message,
+        errorType: typeof error
+    });
+    
     // If we get JWT malformed or authentication errors
     if (error?.response?.status === 401 || 
         error?.response?.status === 500 ||
         error?.message?.includes('JWT') ||
-        error?.message?.includes('malformed')) {
+        error?.message?.includes('malformed') ||
+        error?.message?.includes('Invalid JWT token') ||
+        error?.message?.includes('Token expired')) {
         
         console.log('Authentication error detected, clearing tokens...');
         clearOldToken();
         
         // Redirect to login page
         if (typeof window !== 'undefined') {
+            console.log('Redirecting to login page');
             window.location.href = '/login';
         }
         

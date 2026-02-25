@@ -120,8 +120,11 @@ export default function ViewProfilePage({ userProfile }) {
             {/* Header Section with Cover and Profile Picture */}
             <div className={styles.backDropContainer}>
               <img
-                src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
-                alt={`${userProfile.userId.name}'s profile`}
+                src={`${BASE_URL}/${userProfile?.userId?.profilePicture || 'default.jpeg'}`}
+                alt={`${userProfile?.userId?.name || 'User'}'s profile`}
+                onError={(e) => {
+                  e.target.src = `${BASE_URL}/default.jpeg`;
+                }}
               />
             </div>
 

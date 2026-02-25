@@ -239,7 +239,7 @@ function Connections() {
               )}
               {authState.isError && (
                 <div className={styles.errorContainer}>
-                  <p>Error: {authState.message}</p>
+                  <p>Error: {typeof authState.message === 'object' ? authState.message.message || authState.message : authState.message}</p>
                 </div>
               )}
               {!authState.isLoading && renderConnectionRequests()}

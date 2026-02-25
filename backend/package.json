@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:index": "node scripts/createIndexes.js",
-    "db:seed": "node scripts/seedData.js"
+    "db:seed": "node scripts/seedData.js",
+    "test:rate-limits": "node scripts/testRateLimiting.js",
+    "config:check": "node scripts/configCheck.js"
   },
   "author": "",
   "license": "ISC",

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { setTokenIsThere } from "../../src/config/redux/reducer/authReducer";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../../src/config/index.jsx";
-import { getAllUsers, sendConnectionRequest, getAllMyConnections } from "../../src/config/redux/actions/authAction";
+import { getAllUsers, sendConnectionRequest, getAllMyConnections, fetchUserProfile } from "../../src/config/redux/actions/authAction";
 import newsService from "../../src/services/newsService.js";
 import analyticsService from "../../src/services/analyticsService.js";
 import realTimeService from "../../src/services/realTimeService.js";
@@ -35,6 +35,10 @@ function DashBoardLayout({ children }) {
     if (token) {
       dispatch(getAllUsers());
       dispatch(getAllMyConnections({token}));
+      // Also ensure user profile is fetched
+      if (!authState.profileFetched) {
+        dispatch(fetchUserProfile({token}));
+      }
     }
   }, [authState.isTokenThere]);
 
@@ -244,6 +248,9 @@ function DashBoardLayout({ children }) {
                       className={styles.suggestionAvatar}
                       src={`${BASE_URL}/${user.profilePicture || 'default.jpeg'}`}
                       alt={user.name}
+                      onError={(e) => {
+                        e.target.src = `${BASE_URL}/default.jpeg`;
+                      }}
                     />
                     <div className={styles.suggestionInfo}>
                       <h4 className={styles.suggestionName}>{user.name}</h4>

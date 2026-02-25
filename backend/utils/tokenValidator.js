@@ -13,12 +13,15 @@ export const validateToken = async (token) => {
     if (cleanToken.includes('.') && cleanToken.split('.').length === 3) {
         try {
             // It's a JWT token
+            console.log('Attempting to verify JWT token with secret:', process.env.JWT_SECRET ? 'SECRET_SET' : 'NO_SECRET');
             const decoded = jwt.verify(cleanToken, process.env.JWT_SECRET || 'your-secret-key');
             
             if (!decoded.id) {
+                console.error('Token decoded but missing id:', decoded);
                 throw new Error('Invalid token payload');
             }
 
+            console.log('Token validated successfully for user:', decoded.id);
             return {
                 userId: decoded.id,
                 email: decoded.email,
@@ -26,6 +29,13 @@ export const validateToken = async (token) => {
                 tokenType: 'jwt'
             };
         } catch (error) {
+            console.error('JWT verification failed:', {
+                tokenLength: cleanToken.length,
+                tokenStart: cleanToken.substring(0, 20) + '...',
+                error: error.message,
+                errorName: error.name
+            });
+            
             if (error.name === 'TokenExpiredError') {
                 throw new Error('Token expired - please login again');
             } else if (error.name === 'JsonWebTokenError') {

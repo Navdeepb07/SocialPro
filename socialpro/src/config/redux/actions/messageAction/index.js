@@ -74,6 +74,11 @@ export const getUnreadMessageCount = createAsyncThunk(
     "message/getUnreadCount",
     async(userData, thunkAPI) => {
         try {
+            console.log('Sending getUnreadMessageCount request with token:', {
+                hasToken: !!userData.token,
+                tokenLength: userData.token ? userData.token.length : 0
+            });
+            
             const response = await clientServer.get("/messages/unread-count", {
                 params: {
                     token: userData.token
@@ -81,7 +86,23 @@ export const getUnreadMessageCount = createAsyncThunk(
             });
             return thunkAPI.fulfillWithValue(response.data);
         } catch(error) {
-            return thunkAPI.rejectWithValue(error.response.data);
+            console.error('getUnreadMessageCount error:', {
+                status: error?.response?.status,
+                message: error?.response?.data?.message || error?.message,
+                fullError: error
+            });
+            
+            // Handle JWT/auth errors specifically
+            if (error?.response?.status === 401 || error?.response?.status === 500) {
+                const errorMessage = error?.response?.data?.message || error?.message;
+                if (errorMessage?.includes('JWT') || errorMessage?.includes('token')) {
+                    // Clear invalid tokens
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                }
+            }
+            
+            return thunkAPI.rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );

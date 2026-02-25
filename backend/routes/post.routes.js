@@ -1,5 +1,20 @@
 import {Router} from "express";
-import { activeCheck, CreatePost,getAllPosts,deletePost,commentPost,getComments,deleteCommentsByPostId,increment_likes, getPostsByUsername} from "../controllers/post.controller.js";
+import { 
+  activeCheck, 
+  CreatePost,
+  getAllPosts,
+  getAllPostsPaginated,
+  getAllPostsCursor,
+  deletePost,
+  commentPost,
+  getComments,
+  getCommentsPaginated,
+  deleteCommentsByPostId,
+  increment_likes, 
+  getPostsByUsername,
+  getPostsByUsernamePaginated
+} from "../controllers/post.controller.js";
+import { postLimiter, uploadLimiter, readLimiter } from "../middleware/rateLimiter.js";
 import multer from "multer";
 
 const router = Router();
@@ -19,17 +34,22 @@ const upload = multer({storage:storage});
 router.route("/").get(activeCheck);
 
 // Post CRUD operations
-router.route("/post").post(upload.single("media"), CreatePost);
+router.route("/post").post(postLimiter, uploadLimiter, upload.single("media"), CreatePost);
 
-router.route("/posts").get(getAllPosts);
+// Post retrieval routes (original + paginated versions)
+router.route("/posts").get(readLimiter, getAllPosts);
+router.route("/posts/paginated").get(readLimiter, getAllPostsPaginated);
+router.route("/posts/feed").get(readLimiter, getAllPostsCursor);
 
-router.route("/posts_by_username").get(getPostsByUsername);
+router.route("/posts_by_username").get(readLimiter, getPostsByUsername);
+router.route("/posts_by_username/paginated").get(readLimiter, getPostsByUsernamePaginated);
 
 router.route("/delete_post").delete(deletePost);
 
 // Comment operations
 router.route("/comment_post").post(commentPost);
-router.route("/get_comments").get(getComments);
+router.route("/get_comments").get(readLimiter, getComments);
+router.route("/get_comments/paginated").get(readLimiter, getCommentsPaginated);
 router.route("/delete_comments").delete(deleteCommentsByPostId);
 
 // Post interactions

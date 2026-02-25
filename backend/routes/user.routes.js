@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { login, register, uploadProfilePicture,updateUserProfile, getUserAndProfile,updateProfileData,getAllUserProfiles,downloadResume, sendConnectionRequest,getMyConnectionRequests,whatAreMyConnections,respondToConnectionRequest,getUserProfileAndUserBasedOnUsername,getAllMyConnections} from "../controllers/user.controller.js";
+import { authLimiter, uploadLimiter, readLimiter, apiLimiter } from "../middleware/rateLimiter.js";
 import multer from "multer";
 
 const router = Router();
@@ -15,28 +16,26 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage});
 
-// Authentication routes
-router.route("/register").post(register);
-router.route("/login").post(login);
+// Authentication routes (strict rate limiting for security)
+router.route("/register").post(authLimiter, register);
+router.route("/login").post(authLimiter, login);
 
-// Profile routes
-router.route("/update_profile_picture").post(upload.single('profile_picture'), uploadProfilePicture);
-router.route("/user_update").post(updateUserProfile);
-router.route("/update_profile").post(updateProfileData);
+// Profile routes (moderate rate limiting for updates)
+router.route("/update_profile_picture").post(uploadLimiter, upload.single('profile_picture'), uploadProfilePicture);
+router.route("/user_update").post(apiLimiter, updateUserProfile);
+router.route("/update_profile").post(apiLimiter, updateProfileData);
 
-// Data retrieval routes
-router.route("/get_user_and_profile").get(getUserAndProfile);
+// Data retrieval routes (light rate limiting for reads)
+router.route("/get_user_and_profile").get(readLimiter, getUserAndProfile);
+router.route("/user/get_all_users").get(readLimiter, getAllUserProfiles);
+router.route("/user/get_profile_username").get(readLimiter, getUserProfileAndUserBasedOnUsername);
 
-router.route("/user/get_all_users").get(getAllUserProfiles);
-
-router.route("/user/get_profile_username").get(getUserProfileAndUserBasedOnUsername);
-
-// Connection routes
-router.route("/user/send_connection_request").post(sendConnectionRequest);
-router.route("/user/getConnectionRequests").get(getMyConnectionRequests);
-router.route("/user/user_connection-requests").get(whatAreMyConnections);
-router.route("/user/accept_connection_request").post(respondToConnectionRequest);
-router.route("/user/get_all_connections").get(getAllMyConnections);
+// Connection routes (moderate rate limiting)
+router.route("/user/send_connection_request").post(apiLimiter, sendConnectionRequest);
+router.route("/user/getConnectionRequests").get(readLimiter, getMyConnectionRequests);
+router.route("/user/user_connection-requests").get(readLimiter, whatAreMyConnections);
+router.route("/user/accept_connection_request").post(apiLimiter, respondToConnectionRequest);
+router.route("/user/get_all_connections").get(readLimiter, getAllMyConnections);
 
 // Utility routes
 router.route("/user/download_resume").get(downloadResume);

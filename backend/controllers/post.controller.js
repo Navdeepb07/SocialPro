@@ -2,6 +2,12 @@ import Profile from "../models/profile.models.js";
 import User from "../models/user.models.js";
 import Post from "../models/post.models.js";
 import Comment from "../models/comments.models.js";
+import { 
+  createPaginationQuery, 
+  createPaginationResponse,
+  createCursorPaginationQuery,
+  createCursorPaginationResponse 
+} from "../utils/pagination.js";
 
 export const activeCheck = async (req, res) => {
   return res.status(200).json({ message: "RUNNING" });
@@ -39,6 +45,54 @@ export const getAllPosts = async (req, res) => {
   }
   catch (err) {
     res.status(500).json({ message: err.message });
+  }
+}
+
+// New paginated version of getAllPosts
+export const getAllPostsPaginated = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    const { page: currentPage, limit: itemsPerPage, skip } = createPaginationQuery(page, limit, 50);
+
+    // Get total count for pagination info
+    const totalCount = await Post.countDocuments({ active: true });
+    
+    // Get paginated posts with optimized query
+    const posts = await Post.find({ active: true })
+      .populate("userId", "name username email profilePicture")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(itemsPerPage)
+      .lean(); // Use lean() for better performance
+
+    const response = createPaginationResponse(posts, totalCount, currentPage, itemsPerPage);
+    return res.status(200).json(response);
+
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
+// Cursor-based pagination for real-time feeds
+export const getAllPostsCursor = async (req, res) => {
+  try {
+    const { cursor, limit } = req.query;
+    const { query, limit: itemsPerPage } = createCursorPaginationQuery(cursor, limit, 50);
+
+    // Add active filter to cursor query
+    const finalQuery = { active: true, ...query };
+
+    const posts = await Post.find(finalQuery)
+      .populate("userId", "name username email profilePicture")
+      .sort({ createdAt: -1 })
+      .limit(itemsPerPage + 1) // Get one extra to check if there's a next page
+      .lean();
+
+    const response = createCursorPaginationResponse(posts, itemsPerPage);
+    return res.status(200).json(response);
+
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
 }
 
@@ -104,6 +158,31 @@ export const getComments = async (req, res) => {
   }
 }
 
+// Paginated version of getComments
+export const getCommentsPaginated = async (req, res) => {
+  try {
+    const { postId, page, limit } = req.query;
+    const { page: currentPage, limit: itemsPerPage, skip } = createPaginationQuery(page, limit, 50);
+
+    // Get total count of comments for this post
+    const totalCount = await Comment.countDocuments({ postId: postId });
+    
+    // Get paginated comments
+    const comments = await Comment.find({ postId: postId })
+      .populate("userId", "name username ProfilePicture")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(itemsPerPage)
+      .lean();
+
+    const response = createPaginationResponse(comments, totalCount, currentPage, itemsPerPage);
+    return res.status(200).json(response);
+
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 export const deleteCommentsByPostId = async (req,res) => {
   try {
     const{token,commentId} = req.body;
@@ -158,6 +237,43 @@ export const getPostsByUsername = async (req, res) => {
     return res.status(200).json(posts);
   }
   catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
+// Paginated version of getPostsByUsername
+export const getPostsByUsernamePaginated = async (req, res) => {
+  try {
+    const { username, page, limit } = req.query;
+    
+    const user = await User.findOne({ username: username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { page: currentPage, limit: itemsPerPage, skip } = createPaginationQuery(page, limit, 50);
+
+    // Get total count of user's posts
+    const totalCount = await Post.countDocuments({ 
+      userId: user._id, 
+      active: true 
+    });
+    
+    // Get paginated posts
+    const posts = await Post.find({ 
+        userId: user._id, 
+        active: true 
+      })
+      .populate("userId", "name username email ProfilePicture")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(itemsPerPage)
+      .lean();
+
+    const response = createPaginationResponse(posts, totalCount, currentPage, itemsPerPage);
+    return res.status(200).json(response);
+
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
 }

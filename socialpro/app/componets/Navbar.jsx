@@ -24,23 +24,55 @@ function Navbar() {
     // Fetch unread counts when user is logged in
     useEffect(() => {
         const token = getValidToken();
+        console.log('Navbar: Checking token and auth state:', {
+            hasToken: !!token,
+            profileFetched: authState.profileFetched,
+            authUser: !!authState.user
+        });
+        
         if (token && authState.profileFetched) {
-            dispatch(getUnreadMessageCount({ token }));
-            dispatch(getUnreadNotificationCount({ token }));
+            console.log('Navbar: Dispatching initial unread count requests');
+            dispatch(getUnreadMessageCount({ token })).catch(error => {
+                console.error('Initial getUnreadMessageCount failed:', error);
+                if (handleAuthError(error)) {
+                    handleLogout();
+                }
+            });
+            dispatch(getUnreadNotificationCount({ token })).catch(error => {
+                console.error('Initial getUnreadNotificationCount failed:', error);
+                if (handleAuthError(error)) {
+                    handleLogout();
+                }
+            });
             
             // Set up polling for real-time updates (every 30 seconds)
             const interval = setInterval(() => {
                 const currentToken = getValidToken();
                 if (currentToken) {
-                    dispatch(getUnreadMessageCount({ token: currentToken }));
-                    dispatch(getUnreadNotificationCount({ token: currentToken }));
+                    console.log('Navbar: Polling for updates with token');
+                    dispatch(getUnreadMessageCount({ token: currentToken })).catch(error => {
+                        console.error('Polling getUnreadMessageCount failed:', error);
+                        if (handleAuthError(error)) {
+                            handleLogout();
+                        }
+                    });
+                    dispatch(getUnreadNotificationCount({ token: currentToken })).catch(error => {
+                        console.error('Polling getUnreadNotificationCount failed:', error);
+                        if (handleAuthError(error)) {
+                            handleLogout();
+                        }
+                    });
                 } else {
+                    console.log('Navbar: No valid token during polling, logging out');
                     // Token became invalid, redirect to login
                     handleLogout();
                 }
             }, 30000);
             
             return () => clearInterval(interval);
+        } else if (!token) {
+            console.log('Navbar: No token available, redirecting to login');
+            handleLogout();
         }
     }, [authState.profileFetched, dispatch]);
 

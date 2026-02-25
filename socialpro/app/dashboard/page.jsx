@@ -91,8 +91,11 @@ function Dashboard() {
               <div className={styles.createPostContainer}>
                 <img
                   className={styles.profilePicture}
-                  src={`${BASE_URL}/${authState.user.userId.profilePicture}`}
+                  src={`${BASE_URL}/${authState.user?.userId?.profilePicture || 'default.jpeg'}`}
                   alt="Profile"
+                  onError={(e) => {
+                    e.target.src = `${BASE_URL}/default.jpeg`;
+                  }}
                 />
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
                   <div style={{ position: 'relative', flex: 1 }}>

@@ -85,7 +85,7 @@ function LoginComponent() {
             <div className={styles.messageContainer}>
               {authState.message && (
                 <p className={`${styles.messageText} ${authState.isError ? styles.error : styles.success}`}>
-                  {authState.message}
+                  {typeof authState.message === 'object' ? authState.message.message || authState.message : authState.message}
                 </p>
               )}
             </div>
